@@ -60,8 +60,15 @@ int main(int argc, char **argv)
                              buf+received, 
                              BUFFER_SIZE-received,
                              0);
+            if(received==-1){
+                printf("An error has occurred with recieving data.\n");
+                exit(EXIT_FAILURE);
+            }
         }
-        send(sdconnection, buf, BUFFER_SIZE, 0);
+        if(send(sdconnection, buf, BUFFER_SIZE, 0)==-1){
+            printf("An error has occurred with sending data.\n");
+            exit(EXIT_FAILURE);
+        }
         close(sdconnection);
     }
 

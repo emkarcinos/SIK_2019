@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <netinet/in.h>
 #include <sys/types.h>
@@ -44,9 +45,15 @@ int main(int argc, char **argv)
                                 (struct sockaddr*) &endpoint,
                                 &addrlen);
             totalRecieved += recieved;
+            if(recieved==-1){
+                printf("An error has occured in recieving data.\n");
+                exit(EXIT_FAILURE);
+            }
         }
-        printf("Recieved %d bytes\n", totalRecieved);
-        sendto(sdsocket, buf, BUFFER_SIZE, 0, (struct sockaddr*) &endpoint, addrlen);
+        if(sendto(sdsocket, buf, BUFFER_SIZE, 0, (struct sockaddr*) &endpoint, addrlen)==-1){
+            printf("An error has occurred with sending data.\n");
+            exit(EXIT_FAILURE);
+        }
         printf("Sent packets\n");
     }
        

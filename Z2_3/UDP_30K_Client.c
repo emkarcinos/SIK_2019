@@ -19,7 +19,7 @@ char buf[BUFFER_SIZE];
 int main(int argc, char **argv)
 {
     struct sockaddr_in endpoint;
-    int sdsocket, addrlen, received, i, r;
+    int sdsocket, addrlen, received, i;
     struct hostent *he;
     struct timeval time_b, time_e;
 
@@ -47,13 +47,15 @@ int main(int argc, char **argv)
             return 1;
         }
         
-        r = sendto(sdsocket,
+        if(sendto(sdsocket,
             buf,
             BUFFER_SIZE,
             0,
             (struct sockaddr*) &endpoint,
-            addrlen);
-        printf("Sent %d bytes\n", r);
+            addrlen)==-1){
+                printf("An error has occurred with sending data.\n");
+            exit(EXIT_FAILURE);
+            }
         received=0;
         while (received < BUFFER_SIZE) {
             received += recvfrom(sdsocket,
@@ -62,8 +64,10 @@ int main(int argc, char **argv)
                                 0,
                                 (struct sockaddr*) &endpoint,
                                 &addrlen);
-
-            printf("Packets recieved. Bytes: %d\n", received);
+            if(received==-1){
+                printf("An error has occurred with recieving data.\n");
+                exit(EXIT_FAILURE);
+            }
         }
         close(sdsocket);
     }   

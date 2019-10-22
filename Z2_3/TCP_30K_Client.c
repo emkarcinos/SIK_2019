@@ -49,7 +49,10 @@ int main(int argc, char **argv)
             printf("connect() %d nie powiodl sie\n", i);
             return 0;
         }
-        send(sdsocket, buf, BUFFER_SIZE, 0);
+        if(send(sdsocket, buf, BUFFER_SIZE, 0)==-1){
+            printf("An error has occurred with sending the data.\n");
+            exit(EXIT_FAILURE);
+        }
         received = 0;
         while (received < BUFFER_SIZE)
         {
@@ -57,6 +60,10 @@ int main(int argc, char **argv)
                              buf+received, 
                              BUFFER_SIZE-received, 
                              0);
+            if(received==-1){
+                printf("An error has occured in recieving data.\n");
+                exit(EXIT_FAILURE);
+            }
         }
         close(sdsocket);
     }

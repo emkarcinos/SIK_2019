@@ -5,3 +5,4 @@ czas: 0.000200 s
 czas: 0.000081 s
 Średnia wydajność protokołu UDP przy bloku 30 000 bajtów:
 czas: 0.000067 s
+(Pomiary w lokalnej sieci: RaspberryPI[server] -> Zenbook Linux[client])
