@@ -6,3 +6,7 @@ czas: 0.000081 s
 Średnia wydajność protokołu UDP przy bloku 30 000 bajtów:
 czas: 0.000067 s
 (Pomiary w lokalnej sieci: RaspberryPI[server] -> Zenbook Linux[client])
+Średnia wydajność protokołu TCP przy bloku 10 000 bajtów:
+czas: 0.002292 s
+Średnia wydajność protokołu TCP przy bloku 30 000 bajtów:
+czas: 0.002993 s

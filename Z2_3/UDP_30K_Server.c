@@ -35,20 +35,23 @@ int main(int argc, char **argv)
     }
     
     long long totalRecieved = 0;
-    while (totalRecieved < BUFFER_SIZE * ATTEMPTS) { /* nieskonczona petla */
+    while (totalRecieved < BUFFER_SIZE * ATTEMPTS) {
         recieved=0;
         while (recieved < BUFFER_SIZE){
-            recieved += recvfrom(sdsocket,
+            int temp = 0;
+            temp = recvfrom(sdsocket,
                                 buf+recieved,
                                 BUFFER_SIZE-recieved,
                                 0,
                                 (struct sockaddr*) &endpoint,
                                 &addrlen);
-            totalRecieved += recieved;
-            if(recieved==-1){
+            if(temp==-1){
                 printf("An error has occured in recieving data.\n");
                 exit(EXIT_FAILURE);
             }
+            recieved += temp;
+            totalRecieved += recieved;
+
         }
         if(sendto(sdsocket, buf, BUFFER_SIZE, 0, (struct sockaddr*) &endpoint, addrlen)==-1){
             printf("An error has occurred with sending data.\n");

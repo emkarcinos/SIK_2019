@@ -48,26 +48,28 @@ int main(int argc, char **argv)
         }
         
         if(sendto(sdsocket,
-            buf,
-            BUFFER_SIZE,
-            0,
-            (struct sockaddr*) &endpoint,
-            addrlen)==-1){
-                printf("An error has occurred with sending data.\n");
+                buf,
+                BUFFER_SIZE,
+                0,
+                (struct sockaddr*) &endpoint,
+                addrlen)==-1){
+            printf("An error has occurred with sending data.\n");
             exit(EXIT_FAILURE);
             }
         received=0;
         while (received < BUFFER_SIZE) {
-            received += recvfrom(sdsocket,
+            int temp = 0;
+            temp = recvfrom(sdsocket,
                                 buf+received,
                                 BUFFER_SIZE-received,
                                 0,
                                 (struct sockaddr*) &endpoint,
                                 &addrlen);
-            if(received==-1){
+            if(temp==-1){
                 printf("An error has occurred with recieving data.\n");
                 exit(EXIT_FAILURE);
             }
+            received+=temp;
         }
         close(sdsocket);
     }   
